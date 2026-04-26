@@ -1,0 +1,29 @@
+# Connect Smart Consulting Inc.
+# https://www.connectsmartconsulting.com
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+
+# Explicitly allow major crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+# Block common AI training scrapers (optional - remove if you want AI training exposure)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+Sitemap: https://www.connectsmartconsulting.com/sitemap.xml
