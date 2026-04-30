@@ -594,6 +594,11 @@ footer{background:var(--navy-mid);border-top:1px solid var(--border);padding:60p
   .logo-text{font-size:14px}
   .logo-sub{display:none}
   .nav-links{display:none}
+  .nav-links.open{display:flex;position:absolute;top:76px;left:0;right:0;flex-direction:column;background:rgba(8,18,36,0.98);backdrop-filter:blur(16px);padding:18px 5% 24px;gap:6px;border-bottom:1px solid var(--border);box-shadow:0 12px 32px rgba(0,0,0,.4)}
+  .nav-links.open li{width:100%}
+  .nav-links.open li a{display:block;padding:12px 4px;font-size:15px;border-bottom:1px solid rgba(85,153,212,.08)}
+  .nav-links.open li:last-child a{border-bottom:none}
+  .nav-links.open .nav-cta{margin-top:8px;text-align:center}
   .menu-toggle{display:block}
   .services-grid,.frameworks-grid,.pricing-grid{grid-template-columns:1fr}
   .problem-inner,.why-inner,.about-inner{grid-template-columns:1fr;gap:40px}
@@ -620,15 +625,16 @@ footer{background:var(--navy-mid);border-top:1px solid var(--border);padding:60p
       <div class="logo-sub">AI · Cybersecurity · Quality Engineering</div>
     </div>
   </a>
-  <ul class="nav-links">
+  <ul class="nav-links" id="navLinks">
     <li><a href="#services">Services</a></li>
     <li><a href="#frameworks">Frameworks</a></li>
+    <li><a href="/demo">Demo</a></li>
     <li><a href="#opensource">Open Source</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#contact" class="nav-cta">Book a Call</a></li>
   </ul>
-  <button class="menu-toggle" onclick="this.textContent=this.textContent==='☰ Menu'?'✕ Close':'☰ Menu'">☰ Menu</button>
+  <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">☰ Menu</button>
 </nav>
 <main>
 
@@ -644,7 +650,7 @@ footer{background:var(--navy-mid);border-top:1px solid var(--border);padding:60p
     <p class="hero-sub">Compliance tools confirm your controls exist on paper. We confirm they perform under real-world adversarial conditions. Integrated AI governance, cybersecurity validation, and quality engineering assurance. At prices Ontario SMEs can actually access.</p>
     <div class="hero-actions">
       <a href="#contact" class="btn-primary">Book a Free Discovery Call <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      <a href="https://github.com/connectsmartconsulting/aigrc" target="_blank" rel="noopener" class="btn-secondary">See the Code on GitHub &rarr;</a>
+      <a href="/demo" class="btn-secondary">See aigrc Run Live &rarr;</a>
     </div>
     <div class="hero-stats">
       <div class="stat-item"><span class="stat-num">18</span><div class="stat-label">Years Practitioner Experience</div></div>
@@ -732,6 +738,7 @@ footer{background:var(--navy-mid);border-top:1px solid var(--border);padding:60p
             <div class="t-dim">→ ./aigrc-report-20260426.json</div>
           </div>
         </div>
+        <div style="margin-top:14px;text-align:right;font-size:13px;color:var(--text-muted)">Static preview. <a href="/demo" style="color:var(--teal);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(85,153,212,.3)">See aigrc run end-to-end &rarr;</a></div>
       </div>
     </div>
 
@@ -947,7 +954,7 @@ footer{background:var(--navy-mid);border-top:1px solid var(--border);padding:60p
       <p>Assurance-as-a-Service for Ontario SMEs and enterprises deploying AI systems. We validate what compliance tools only document.</p>
     </div>
     <div class="footer-col"><h6>Services</h6><ul><li><a href="#services">AI Governance Assurance</a></li><li><a href="#services">Cybersecurity Validation</a></li><li><a href="#services">Quality Engineering</a></li><li><a href="#frameworks">Our Frameworks</a></li></ul></div>
-    <div class="footer-col"><h6>Open Source</h6><ul><li><a href="https://github.com/connectsmartconsulting/aigrc" target="_blank" rel="noopener">aigrc on GitHub</a></li><li><a href="https://github.com/connectsmartconsulting/qopilot" target="_blank" rel="noopener">qopilot on GitHub</a></li><li><a href="https://github.com/connectsmartconsulting" target="_blank" rel="noopener">All Repositories</a></li></ul></div>
+    <div class="footer-col"><h6>Open Source</h6><ul><li><a href="/demo">Live Demo</a></li><li><a href="https://github.com/connectsmartconsulting/aigrc" target="_blank" rel="noopener">aigrc on GitHub</a></li><li><a href="https://github.com/connectsmartconsulting/qopilot" target="_blank" rel="noopener">qopilot on GitHub</a></li><li><a href="https://github.com/connectsmartconsulting" target="_blank" rel="noopener">All Repositories</a></li></ul></div>
     <div class="footer-col"><h6>Pricing</h6><ul><li><a href="#pricing">Tier 1 · AI Risk Snapshot</a></li><li><a href="#pricing">Tier 2 · Validation Engagement</a></li><li><a href="#pricing">Tier 3 · Assurance Retainer</a></li></ul></div>
     <div class="footer-col"><h6>Company</h6><ul><li><a href="#about">About the Founder</a></li><li><a href="#regulatory">Regulatory Alignment</a></li><li><a href="#contact">Book a Call</a></li><li><a href="/privacy">Privacy Policy</a></li><li><a href="/terms">Terms of Service</a></li><li><a href="mailto:safiuddin@connectsmartconsulting.com">Direct Contact</a></li></ul></div>
   </div>
@@ -965,6 +972,27 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 window.addEventListener('scroll', () => {
   document.getElementById('mainNav').style.background = window.scrollY > 40 ? 'rgba(8,18,36,0.99)' : 'rgba(8,18,36,0.93)';
 });
+
+// Mobile menu toggle
+(function(){
+  const btn = document.getElementById('menuToggle');
+  const links = document.getElementById('navLinks');
+  if(!btn || !links) return;
+  const close = () => {
+    links.classList.remove('open');
+    btn.textContent = '☰ Menu';
+    btn.setAttribute('aria-expanded','false');
+  };
+  btn.addEventListener('click', () => {
+    const isOpen = links.classList.toggle('open');
+    btn.textContent = isOpen ? '✕ Close' : '☰ Menu';
+    btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  // Close when a link inside the menu is tapped
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+  // Close when viewport grows past mobile breakpoint
+  window.addEventListener('resize', () => { if(window.innerWidth > 900) close(); });
+})();
 </script>
 </body>
 </html>

@@ -178,7 +178,7 @@ footer{padding:48px 5% 32px;border-top:1px solid var(--border);background:rgba(1
       <div class="logo-sub">AI · Cybersecurity · Quality Engineering</div>
     </div>
   </a>
-  <ul class="nav-links">
+  <ul class="nav-links" id="navLinks">
     <li><a href="/#services">Services</a></li>
     <li><a href="/#frameworks">Frameworks</a></li>
     <li><a href="/#pricing">Pricing</a></li>
@@ -186,7 +186,7 @@ footer{padding:48px 5% 32px;border-top:1px solid var(--border);background:rgba(1
     <li><a href="/#about">About</a></li>
     <li><a href="/#contact" class="nav-cta">Get Assessment</a></li>
   </ul>
-  <button class="menu-toggle" onclick="this.textContent=this.textContent==='☰ Menu'?'✕ Close':'☰ Menu'">☰ Menu</button>
+  <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">☰ Menu</button>
 </nav>
 
 <header class="page-header">
@@ -436,9 +436,24 @@ footer{padding:48px 5% 32px;border-top:1px solid var(--border);background:rgba(1
 </footer>
 
 <script>
-  const t = document.getElementById('menuToggle');
-  const n = document.getElementById('navLinks');
-  if (t) t.addEventListener('click', () => { n.classList.toggle('open'); t.textContent = n.classList.contains('open') ? '✕ Close' : '☰ Menu'; });
+  // Mobile menu toggle
+  (function(){
+    const btn = document.getElementById('menuToggle');
+    const links = document.getElementById('navLinks');
+    if(!btn || !links) return;
+    const close = () => {
+      links.classList.remove('open');
+      btn.textContent = '☰ Menu';
+      btn.setAttribute('aria-expanded','false');
+    };
+    btn.addEventListener('click', () => {
+      const isOpen = links.classList.toggle('open');
+      btn.textContent = isOpen ? '✕ Close' : '☰ Menu';
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+    links.querySelectorAll('a').forEach(a => a.addEventListener('click', close));
+    window.addEventListener('resize', () => { if(window.innerWidth > 820) close(); });
+  })();
 
   // Tabs for evidence artefacts section
   document.querySelectorAll('.tab-btn').forEach(btn => {
